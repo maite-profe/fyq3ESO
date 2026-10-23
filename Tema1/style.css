@@ -78,3 +78,41 @@ html{font-size:18px}#app{padding:18px max(2.5vw,18px) 64px}#stage{height:calc(10
 .phase-temp-concept .phase-temp-key{text-align:center}
 .phase-temp-reminder{background:#fff1da;border-radius:13px;padding:13px 18px;margin:18px 0 0}
 @media(max-width:700px){.gas-liquid-grid,.phase-temp-grid{gap:12px}.gas-liquid-card,.phase-temp-concept{padding:12px}.gas-liquid-art{height:140px}.phase-temp-definition{padding:12px}.gas-liquid-label{letter-spacing:.04em}}
+
+/* Leyes de los gases · edición académica, misma estructura por ley. */
+.gas-law-academic{max-width:1280px;margin:0 auto;color:#233f53;font-size:clamp(1.08rem,1.55vw,1.55rem);line-height:1.32}
+.gas-law-conditions{display:flex;justify-content:space-between;align-items:center;gap:20px;padding:12px 18px;background:#e2f0f9;border-left:5px solid #2b6f97;border-radius:0 10px 10px 0}
+.gas-law-conditions strong{color:#174e72}.gas-law-conditions span{font-size:.88em;color:#3d6078}
+.gas-law-definition{font-size:clamp(1.25rem,1.95vw,1.9rem);margin:18px 0 10px;line-height:1.35}
+.gas-law-theory-grid{display:grid;grid-template-columns:1.05fr 1fr;gap:30px;align-items:start}
+.gas-law-evidence h3{font-size:1em;font-weight:700;color:#4a6b80;margin:8px 0 2px}
+.gas-law-model{display:block;width:100%;max-height:31vh}
+.gas-law-relation{display:grid;grid-template-columns:1.2fr 1fr;column-gap:12px;align-items:center}
+.gas-law-equation{font-family:Georgia,'Times New Roman',serif;font-size:clamp(1.5rem,2.45vw,2.4rem);font-weight:700;display:flex;align-items:center;justify-content:center;gap:.22em;line-height:1.1;white-space:nowrap;color:#164c71;min-height:52px}
+.gas-law-proportion{font-size:.9em;text-align:center;display:flex;align-items:center;justify-content:center;gap:.25em;color:#4e6d80}
+.gas-law-frac{display:inline-flex;flex-direction:column;vertical-align:middle;align-items:stretch;text-align:center;line-height:1.05;margin:0 .12em}
+.gas-law-frac>span{display:block;padding:2px 5px}.gas-law-frac>span:first-child{border-bottom:1.5px solid currentColor;padding-bottom:4px}.gas-law-frac>span:last-child{padding-top:4px}
+.gas-law-graph{grid-column:1/-1;width:100%;display:block;max-height:26vh}
+.gas-law-tcm{border-top:2px solid #c4d9e6;padding:12px 0 0;margin-top:10px}
+.gas-law-tcm>strong{display:block;color:#1d5c83;font-size:.94em}.gas-law-tcm p{margin:5px 0 0}
+.gas-law-footnote{font-size:.75em;color:#567084;margin:10px 0 0}
+.gas-law-examples{display:grid;grid-template-columns:1fr 1fr;gap:25px;margin-top:17px}
+.gas-law-example{border:1.5px solid #bed2e0;border-radius:12px;background:#fff;padding:15px 20px}
+.gas-law-example header{border-bottom:1px solid #d6e3ed;padding-bottom:9px;margin-bottom:8px}
+.gas-law-example header>span{display:block;text-transform:uppercase;letter-spacing:.1em;font-size:.72em;color:#55758c;font-weight:700}
+.gas-law-example header h3{font-size:clamp(1.3rem,1.9vw,1.9rem);color:#225c80;margin:2px 0 0}
+.gas-law-problem{min-height:3.9em;margin:8px 0 10px}
+.gas-law-data>strong,.gas-law-working>strong,.gas-law-result>strong{font-size:.9em;color:#2b5e7e}
+.gas-law-data table{width:100%;border-collapse:collapse;font-size:.9em;margin:7px 0 0}
+.gas-law-data th,.gas-law-data td{text-align:center;padding:5px 8px;border:1px solid #d0e0eb}
+.gas-law-data thead{background:#edf5fa}.gas-law-data th{font-weight:700}
+.gas-law-units{font-size:.92em;margin:10px 0}
+.gas-law-working{padding-top:8px;border-top:1px solid #d6e3ed}
+.gas-law-small-equation{font-size:clamp(1.1rem,1.62vw,1.65rem);margin:5px 0 9px;min-height:50px}
+.gas-law-result{border-top:1px solid #d6e3ed;padding-top:8px}
+.gas-law-solution{font-size:.95em;background:#eff6fa;border-radius:8px;padding:8px 12px;margin-top:6px}
+.gas-law-solution p{margin:4px 0}.gas-law-solution p:first-child{font-family:Georgia,'Times New Roman',serif;font-size:1.13em;display:flex;align-items:center;gap:.2em;min-height:46px}
+.gas-law-result .btn{font-size:.88em;margin-top:9px;padding:9px 16px}
+.gas-law-result .answer{padding:0;border:none;background:none;margin:0}
+.gas-law-footer-rule{background:#e2f0f9;padding:10px 16px;border-radius:9px;font-size:.94em;margin:14px 0 0;font-weight:600}
+@media(max-width:800px){.gas-law-academic{font-size:1.1rem}.gas-law-conditions{gap:10px;padding:10px}.gas-law-theory-grid,.gas-law-examples{gap:14px}.gas-law-relation{grid-template-columns:1fr}.gas-law-graph{max-height:23vh}.gas-law-proportion{display:none}.gas-law-example{padding:12px}.gas-law-small-equation{font-size:1.05rem}.gas-law-problem{min-height:0}.gas-law-model{max-height:29vh}}
