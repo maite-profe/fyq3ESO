@@ -116,3 +116,29 @@ html{font-size:18px}#app{padding:18px max(2.5vw,18px) 64px}#stage{height:calc(10
 .gas-law-result .answer{padding:0;border:none;background:none;margin:0}
 .gas-law-footer-rule{background:#e2f0f9;padding:10px 16px;border-radius:9px;font-size:.94em;margin:14px 0 0;font-weight:600}
 @media(max-width:800px){.gas-law-academic{font-size:1.1rem}.gas-law-conditions{gap:10px;padding:10px}.gas-law-theory-grid,.gas-law-examples{gap:14px}.gas-law-relation{grid-template-columns:1fr}.gas-law-graph{max-height:23vh}.gas-law-proportion{display:none}.gas-law-example{padding:12px}.gas-law-small-equation{font-size:1.05rem}.gas-law-problem{min-height:0}.gas-law-model{max-height:29vh}}
+
+/* Apartado 5 · definiciones en párrafos y esquemas científicos propios. */
+.atmo-lesson{width:min(1280px,100%);margin:auto;font-size:clamp(1.15rem,1.85vw,1.8rem);line-height:1.38;color:#25475f}
+.atmo-intro-grid{display:grid;grid-template-columns:1.25fr 1fr;gap:48px;align-items:center}
+.atmo-definitions p{margin:0 0 20px}.atmo-definitions strong,.atmo-map-definitions strong{color:#1b5a80}
+.atmo-definitions .atmo-altitude{font-size:.85em;color:#496a80;border-top:2px solid #c8dce9;padding-top:15px;margin-bottom:0}
+.atmo-composition{padding-left:28px;border-left:2px solid #c8dce9}
+.atmo-composition h3{font-size:clamp(1.4rem,2.3vw,2.2rem);margin:0;text-align:center;color:#215a7d}
+.atmo-composition-art{display:block;width:100%;max-height:29vh}
+.atmo-gas-legend p{display:flex;align-items:center;gap:10px;margin:8px 0;font-size:.95em}
+.atmo-gas-legend strong{margin-left:auto;color:#215a7d;font-size:1.16em}.atmo-dot{display:inline-block;width:14px;height:14px;border-radius:50%;flex:none}
+.atmo-nitrogen{background:#317da8}.atmo-oxygen{background:#dcaa6e}.atmo-other{background:#a5bac8}
+.atmo-caption{font-size:clamp(.85rem,1.1vw,1.05rem);color:#55758b;margin:8px 0 0;text-align:center}
+.atmo-torricelli-grid{display:grid;grid-template-columns:1fr 1.1fr;gap:35px;align-items:center}
+.atmo-torricelli-art{display:block;width:100%;max-height:49vh}
+.atmo-experiment ol{margin:0;padding-left:1.3em}.atmo-experiment li{padding-left:7px;margin:0 0 14px}
+.atmo-experiment p{margin:12px 0}.atmo-experiment-key{font-weight:700;color:#205d83;border-top:2px solid #c6dce9;padding-top:12px}
+.atmo-pressure-equivalence{font-size:clamp(1.3rem,2.1vw,2.1rem);font-family:Georgia,'Times New Roman',serif;color:#174c72;font-weight:700;margin:14px 0}
+.atmo-experiment .btn,.atmo-map-definitions .btn{font-size:clamp(.95rem,1.3vw,1.3rem)}
+.atmo-torricelli-note{border-top:2px solid #c6dce9;padding:12px 0 0;font-size:.87em;margin:16px 0 0}
+.atmo-map-grid{display:grid;grid-template-columns:1fr 1.1fr;gap:30px;align-items:center}
+.atmo-map-definitions p{margin:0 0 16px;font-size:.94em}
+.atmo-map-definitions .atmo-isobar-rule{padding-top:12px;border-top:2px solid #c6dce9}
+.atmo-weather-art{display:block;width:100%;max-height:47vh}
+.atmo-wind-summary{background:#e2f0fa;border-left:5px solid #317da8;border-radius:0 12px 12px 0;padding:13px 18px;margin:17px 0 0;font-size:.95em}
+@media(max-width:800px){.atmo-intro-grid,.atmo-torricelli-grid,.atmo-map-grid{gap:18px}.atmo-composition{padding-left:15px}.atmo-definitions p,.atmo-map-definitions p{margin-bottom:12px}.atmo-gas-legend p{gap:6px}.atmo-pressure-equivalence{font-size:1.2rem}.atmo-torricelli-art{max-height:43vh}}
