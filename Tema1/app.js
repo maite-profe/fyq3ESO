@@ -161,90 +161,96 @@ S('leyes','4 · Leyes de los gases','Leyes de los gases',`<figure class="noteboo
 S('leyes','Método de resolución','Cinco pasos para un problema',`<div class="problem-method">${['Subraya lo que permanece constante.','Anota datos iniciales y finales.','Pasa la temperatura a K y unifica unidades.','Escribe la ley y despeja la incógnita.','Comprueba las unidades y si el resultado tiene sentido.'].map((t,i)=>`<div class="step"><b>${i+1}</b><p>${t}</p></div>`).join('')}</div>`);
 // Leyes de los gases: misma estructura didáctica para las tres leyes.
 // Relaciones contrastadas con OpenStax, Chemistry, sección 9.2; TCM, sección 9.5.
-const gasLawFraction=(a,b)=>'<span class="gas-law-frac"><span>'+a+'</span><span>'+b+'</span></span>';
-const gasLawModel=(kind)=>{
- const cylinder=(x,top,fast,labels,fixed)=>{
-  const floor=200,height=floor-top;
-  const dots=Array.from({length:12},(_,i)=>{
-   const px=x+22+(i%4)*25+(Math.floor(i/4)%2)*3,py=top+17+Math.floor(i/4)*(height-34)/2;
-   const dx=(i%2?1:-1)*(fast?12:8),dy=(i%3?1:-1)*(fast?7:4);
-   return '<path d="M'+(px-dx)+' '+(py-dy)+'L'+px+' '+py+'" stroke="#8bb7d0" stroke-width="2.4"/><circle cx="'+px+'" cy="'+py+'" r="4.8" fill="#27759f"/>';
+// Leyes de los gases · 3.º ESO: ejemplos dibujados, sin gráficas de ejes.
+const gasLawFraction=(a,b)=>'<span class="gas-eso-frac"><span>'+a+'</span><span>'+b+'</span></span>';
+const gasEsoDrawing=(law,worked=false)=>{
+ const d=worked?law.work:law.demo;
+ const key='gas-eso-'+law.kind+(worked?'-work':'-demo');
+ const positions=[[.17,.16],[.49,.13],[.81,.19],[.31,.36],[.66,.37],[.13,.57],[.45,.58],[.83,.55],[.25,.80],[.62,.79],[.78,.89],[.46,.91]];
+ const chamber=(offset,second)=>{
+  const V=second?d.v2:d.v1,P=second?d.p2:d.p1,T=second?d.t2:d.t1;
+  const initialHeight=law.kind==='charles'?110:180;
+  const h=law.kind==='gay'?180:initialHeight*V/d.v1,top=300-h;
+  const hot=second&&law.kind!=='boyle',needle=(-135+P/4*270)*Math.PI/180;
+  const unknown=worked&&second?law.unknown:null;
+  const particles=positions.map(([a,b],i)=>{
+   const x=112+a*112,y=top+14+b*(h-28),dx=(i%2?1:-1)*(hot?12:8),dy=(i%3?1:-1)*(hot?6:4);
+   return '<path d="M'+(x-dx)+' '+(y-dy)+'L'+x+' '+y+'" stroke="#7aa9c7" stroke-width="2.5" stroke-linecap="round"/><circle cx="'+x+'" cy="'+y+'" r="5.5" fill="#2e729b"/>';
   }).join('');
-  return '<path d="M'+x+' 42V200H'+(x+124)+'V42" fill="#edf7fd" stroke="#3c657f" stroke-width="3"/><rect x="'+x+'" y="'+(top-6)+'" width="124" height="9" rx="2" fill="#7599ad" stroke="#3c657f" stroke-width="2"/>'+
-   (fixed?'<path d="M'+(x-8)+' 41H'+(x+132)+'" stroke="#3c657f" stroke-width="6"/>':'<path d="M'+(x+62)+' '+(top-6)+'V24" stroke="#486f88" stroke-width="7"/><path d="M'+(x+45)+' 24H'+(x+79)+'" stroke="#486f88" stroke-width="5"/>')+
-   dots+'<g text-anchor="middle" font-family="Arial" fill="#234d69"><text x="'+(x+62)+'" y="229" font-size="21" font-weight="bold">'+labels[0]+'</text><text x="'+(x+62)+'" y="256" font-size="20">'+labels[1]+'</text></g>';
+  const lid=law.kind==='gay'?'<path d="M94 '+(top-3)+'H242" stroke="#45657c" stroke-width="10"/><path d="M104 '+(top-8)+'V'+(top+9)+'M232 '+(top-8)+'V'+(top+9)+'" stroke="#45657c" stroke-width="3"/>':'<rect x="96" y="'+(top-7)+'" width="144" height="12" rx="3" fill="#769bad" stroke="#45657c" stroke-width="2"/><path d="M168 '+(top-7)+'V'+(top-36)+'M145 '+(top-36)+'H191" stroke="#45657c" stroke-width="6" fill="none" stroke-linecap="round"/>';
+  const level=law.kind==='boyle'?.45:.23+(T-300)/300*.57;
+  return '<g transform="translate('+offset+' 0)"><text x="215" y="26" text-anchor="middle" class="gas-eso-svg-title">'+(second?'DESPUÉS':'ANTES')+'</text><path d="M100 '+(law.kind==='gay'?top:66)+'V300H236V'+(law.kind==='gay'?top:66)+'" fill="url(#'+key+'-glass)" stroke="#45657c" stroke-width="3.5"/><rect x="105" y="'+(top+3)+'" width="126" height="'+(h-7)+'" fill="#e6f3fc"/>'+particles+lid+
+   (law.kind==='boyle'?'<path d="M153 302V316H181V302" fill="#ddeaf3" stroke="#45657c" stroke-width="3"/><rect x="149" y="315" width="36" height="11" rx="4" fill="#ba8c62"/>':'<rect x="110" y="308" width="115" height="9" rx="4" fill="'+(hot?'#da9b60':'#c3d3df')+'"/><path d="M133 331Q123 325 133 319M166 331Q156 325 166 319M199 331Q189 325 199 319" stroke="'+(hot?'#cd8347':'#b6c8d5')+'" fill="none" stroke-width="3"/>')+
+   '<path d="M237 243H346V183" fill="none" stroke="#69899d" stroke-width="4"/><circle cx="346" cy="147" r="37" fill="#fff" stroke="#45657c" stroke-width="3"/><path d="M319 158A29 29 0 1 1 373 158" fill="none" stroke="#c4d7e3" stroke-width="5"/>'+
+   (unknown==='p'?'<text x="346" y="157" font-size="30" text-anchor="middle" fill="#2e729b" font-weight="bold">?</text>':'<path d="M346 147L'+(346+27*Math.cos(needle))+' '+(147+27*Math.sin(needle))+'" stroke="#b77d47" stroke-width="4" stroke-linecap="round"/><circle cx="346" cy="147" r="4" fill="#45657c"/>')+
+   '<text x="346" y="207" text-anchor="middle" class="gas-eso-svg-value">p'+(second?'₂':'₁')+' = '+(unknown==='p'?'?':String(P).replace('.',',')+' atm')+'</text><rect x="33" y="133" width="15" height="142" rx="7" fill="#fff" stroke="#6b8a9d" stroke-width="2"/><rect x="37" y="'+(270-117*level)+'" width="7" height="'+(117*level)+'" rx="3" fill="'+(hot?'#d78d51':'#4a96bb')+'"/><circle cx="40.5" cy="280" r="13" fill="'+(hot?'#d78d51':'#4a96bb')+'" stroke="#6b8a9d" stroke-width="2"/><text x="44" y="320" text-anchor="middle" class="gas-eso-svg-temperature">'+(law.kind==='boyle'?'20 °C':T+' K')+'</text><text x="168" y="367" text-anchor="middle" class="gas-eso-svg-value">V'+(second?'₂':'₁')+' = '+(unknown==='v'?'?':String(V).replace('.',',')+' '+law.unit)+'</text></g>';
  };
- const spec=kind==='boyle'?{a:57,b:128,fast:false,labels:[['V₁ = 4 L','p₁ = 1 atm'],['V₂ = 2 L','p₂ = 2 atm']],caption:'Temperatura constante · 300 K'}:
- kind==='charles'?{a:105,b:57,fast:true,labels:[['T₁ = 300 K','V₁ = 2 L'],['T₂ = 450 K','V₂ = 3 L']],caption:'Presión constante · 1 atm'}:
- {a:57,b:57,fast:true,labels:[['T₁ = 300 K','p₁ = 1 atm'],['T₂ = 450 K','p₂ = 1,5 atm']],caption:'Volumen constante · 2 L'};
- return '<svg class="gas-law-model" viewBox="0 0 510 295" role="img" aria-label="'+(kind==='boyle'?'Al reducir el volumen a la mitad, se duplica la presión a temperatura constante':kind==='charles'?'Un émbolo móvil permite que aumente el volumen al calentar, a presión constante':'Un recipiente rígido conserva su volumen: al calentar aumenta la presión')+'">'+cylinder(55,spec.a,false,spec.labels[0],kind==='gay')+
- '<path d="M220 124H283L271 113M283 124L271 135" fill="none" stroke="#ae7d46" stroke-width="4"/>'+
- cylinder(325,spec.b,spec.fast,spec.labels[1],kind==='gay')+
- '<text x="255" y="288" text-anchor="middle" font-family="Arial" font-size="19" fill="#42637a">'+spec.caption+'</text></svg>';
+ return '<svg class="gas-eso-drawing" viewBox="0 0 930 390" role="img" aria-label="'+(worked?law.workAlt:law.alt)+'"><defs><linearGradient id="'+key+'-glass" x2="1" y2="0"><stop stop-color="#d2e5f2"/><stop offset=".45" stop-color="#fff"/><stop offset="1" stop-color="#d2e5f2"/></linearGradient><marker id="'+key+'-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#b77d47"/></marker></defs>'+chamber(15,false)+'<path d="M434 180H486" stroke="#b77d47" stroke-width="5" marker-end="url(#'+key+'-arrow)"/>'+chamber(490,true)+'</svg>';
 };
-const gasLawGraph=(kind)=>{
- const inverse=kind==='boyle', maxX=inverse?4.5:650,maxY=inverse?4.5:kind==='charles'?4.5:2.25;
- const px=x=>65+x/maxX*365,py=y=>230-y/maxY*183;
- const points=inverse?Array.from({length:61},(_,i)=>{let x=.9+i*3.6/60;return [x,4/x]}):[[150,kind==='charles'?1:.5],[600,kind==='charles'?4:2]];
- const data=inverse?[[1,4],[2,2],[4,1]]:kind==='charles'?[[300,2],[450,3],[600,4]]:[[300,1],[450,1.5],[600,2]];
- const xt=inverse?[1,2,4]:[300,450,600],yt=inverse?[1,2,4]:kind==='charles'?[1,2,4]:[.5,1,2];
- return '<svg class="gas-law-graph" viewBox="0 0 480 295" role="img" aria-label="'+(inverse?'Presión frente a volumen: curva inversa':kind==='charles'?'Volumen frente a temperatura en kelvin: recta creciente':'Presión frente a temperatura en kelvin: recta creciente')+'"><g stroke="#dbe8f0" stroke-width="1.5">'+yt.map(y=>'<path d="M65 '+py(y)+'H430"/>').join('')+'</g><path d="M65 36V230H447" fill="none" stroke="#3c657f" stroke-width="2.5"/>'+
- (!inverse?'<path d="M65 230L'+px(points[0][0])+' '+py(points[0][1])+'" stroke="#8baabc" stroke-dasharray="5 5" stroke-width="2"/>':'')+
- '<polyline points="'+points.map(p=>px(p[0])+','+py(p[1])).join(' ')+'" fill="none" stroke="#27759f" stroke-width="3.5"/>'+
- data.map(([x,y])=>'<circle cx="'+px(x)+'" cy="'+py(y)+'" r="5.5" fill="#ae7d46"/>').join('')+
- '<g font-family="Arial" font-size="18" fill="#315773">'+xt.map(x=>'<text x="'+px(x)+'" y="252" text-anchor="middle">'+x+'</text>').join('')+yt.map(y=>'<text x="53" y="'+(py(y)+6)+'" text-anchor="end">'+String(y).replace('.',',')+'</text>').join('')+
- '<text x="65" y="23">'+(kind==='charles'?'V (L)':'p (atm)')+'</text><text x="432" y="280" text-anchor="end">'+(inverse?'V (L)':'T (K)')+'</text></g></svg>';
-};
-const gasLawTheory=law=>'<div class="gas-law-academic"><div class="gas-law-conditions"><strong>'+law.constant+'</strong><span>Misma cantidad de gas</span></div><div class="gas-law-definition">'+law.statement+'</div><div class="gas-law-theory-grid"><section class="gas-law-evidence"><h3>Modelo de partículas</h3>'+gasLawModel(law.kind)+'</section><section class="gas-law-relation"><div class="gas-law-equation">'+law.formula+'</div><div class="gas-law-proportion">'+law.proportion+'</div>'+gasLawGraph(law.kind)+'</section></div><div class="gas-law-tcm"><strong>Según la teoría cinético-molecular</strong><p>'+law.tcm+'</p></div><p class="gas-law-footnote">Modelo de gas ideal. El gas permanece en estado gaseoso; no entra ni sale gas del recipiente.</p></div>';
-const gasLawExample=(law,e,i)=>'<section class="gas-law-example"><header><span>Ejemplo '+(i+1)+'</span><h3>'+e.title+'</h3></header><p class="gas-law-problem">'+e.problem+'</p><div class="gas-law-data"><strong>1. Datos</strong><table><thead><tr><th>Magnitud</th><th>Inicial</th><th>Final</th></tr></thead><tbody>'+e.rows.map(r=>'<tr>'+r.map((v,j)=>'<'+(j?'td':'th')+'>'+v+'</'+(j?'td':'th')+'>').join('')+'</tr>').join('')+'</tbody></table></div><p class="gas-law-units"><strong>2. Unidades.</strong> '+e.units+'</p><div class="gas-law-working"><strong>3. Plantea y despeja</strong><div class="gas-law-equation gas-law-small-equation">'+e.equation+'</div></div><div class="gas-law-result"><strong>4. Calcula e interpreta</strong>'+
- (i===0?'<div class="gas-law-solution">'+e.solution+'</div>':reveal('gas-law-'+law.kind+'-practice','Mostrar solución','<div class="gas-law-solution">'+e.solution+'</div>'))+'</div></section>';
-const gasLawExamples=law=>'<div class="gas-law-academic"><div class="gas-law-conditions"><strong>'+law.constant+'</strong><span>'+law.examplesHeader+'</span></div><div class="gas-law-examples">'+law.examples.map((e,i)=>gasLawExample(law,e,i)).join('')+'</div><p class="gas-law-footer-rule">'+law.rule+'</p></div>';
-const gasLawsAcademic=[
- {kind:'boyle',name:'Boyle-Mariotte',constant:'Temperatura constante',statement:'El <strong>volumen</strong> y la <strong>presión</strong> son <strong>inversamente proporcionales</strong>: al disminuir uno, aumenta el otro.',
- formula:'p₁ · V₁ = p₂ · V₂',proportion:'p · V = constante',tcm:'Al reducir el volumen, las partículas chocan más a menudo contra las paredes y <strong>aumenta la presión</strong>. Su rapidez media no cambia porque la temperatura es la misma.',
- examplesHeader:'Dos incógnitas diferentes: presión y volumen',rule:'Comprueba la tendencia: a temperatura constante, menos volumen implica más presión.',
- examples:[
-  {title:'Calculamos la presión',problem:'Una muestra de gas ocupa <strong>3 L a 1 atm</strong>. Se comprime hasta <strong>1,2 L</strong> sin cambiar su temperatura. ¿Cuál es la presión final?',
-   rows:[['p','1 atm','?'],['V','3 L','1,2 L']],units:'Las dos presiones se expresan en atm y los dos volúmenes, en L.',
-   equation:'p₁ · V₁ = p₂ · V₂ &nbsp; ⇒ &nbsp; p₂ = '+gasLawFraction('p₁ · V₁','V₂'),
-   solution:'<p>p₂ = '+gasLawFraction('1 · 3','1,2')+' = <strong>2,5 atm</strong></p><p>El volumen disminuye; la presión <strong>aumenta</strong>.</p>'},
-  {title:'Calculamos el volumen',problem:'Un gas ocupa <strong>150 mL a 1,2 atm</strong>. La presión baja a <strong>0,9 atm</strong> y la temperatura no cambia. ¿Qué volumen ocupa?',
-   rows:[['p','1,2 atm','0,9 atm'],['V','150 mL','?']],units:'Se pueden usar mL si ambos volúmenes se expresan en esa unidad.',
-   equation:'p₁ · V₁ = p₂ · V₂ &nbsp; ⇒ &nbsp; V₂ = '+gasLawFraction('p₁ · V₁','p₂'),
-   solution:'<p>V₂ = '+gasLawFraction('1,2 · 150','0,9')+' = <strong>200 mL</strong></p><p>La presión disminuye; el volumen <strong>aumenta</strong>.</p>'}
- ]},
- {kind:'charles',name:'Charles',constant:'Presión constante',statement:'El <strong>volumen</strong> es <strong>directamente proporcional a la temperatura en kelvin</strong>: al calentar, el gas se expande; al enfriar, se contrae.',
- formula:gasLawFraction('V₁','T₁')+' = '+gasLawFraction('V₂','T₂'),proportion:gasLawFraction('V','T')+' = constante',
- tcm:'Al calentar, las partículas se mueven más deprisa. El émbolo puede subir y el gas <strong>ocupa más volumen</strong>, de modo que la presión se mantiene constante.',
- examplesHeader:'Convertimos a kelvin: T (K) = t (°C) + 273',rule:'Duplicar la temperatura en kelvin duplica el volumen. Duplicar los grados Celsius no lo duplica.',
- examples:[
-  {title:'Calculamos el volumen',problem:'Un gas ocupa <strong>2 L a 27 °C</strong> en un cilindro con émbolo móvil. Se calienta hasta <strong>87 °C</strong> a presión constante. ¿Cuál es el volumen final?',
-   rows:[['V','2 L','?'],['t','27 °C','87 °C']],units:'T₁ = 27 + 273 = 300 K; T₂ = 87 + 273 = 360 K.',
-   equation:gasLawFraction('V₁','T₁')+' = '+gasLawFraction('V₂','T₂')+' &nbsp; ⇒ &nbsp; V₂ = '+gasLawFraction('V₁ · T₂','T₁'),
-   solution:'<p>V₂ = '+gasLawFraction('2 · 360','300')+' = <strong>2,4 L</strong></p><p>La temperatura aumenta; el volumen <strong>aumenta</strong>.</p>'},
-  {title:'Calculamos la temperatura',problem:'Una muestra de gas ocupa <strong>450 mL a 300 K</strong>. Al enfriarla a presión constante ocupa <strong>360 mL</strong>. ¿Cuál es su temperatura final en °C?',
-   rows:[['V','450 mL','360 mL'],['T','300 K','?']],units:'Los datos ya están en mL y K. Convertimos el resultado a °C al final.',
-   equation:gasLawFraction('V₁','T₁')+' = '+gasLawFraction('V₂','T₂')+' &nbsp; ⇒ &nbsp; T₂ = '+gasLawFraction('V₂ · T₁','V₁'),
-   solution:'<p>T₂ = '+gasLawFraction('360 · 300','450')+' = <strong>240 K</strong></p><p>t₂ = 240 − 273 = <strong>−33 °C</strong>. El gas se enfría y se contrae.</p>'}
- ]},
- {kind:'gay',name:'Gay-Lussac',constant:'Volumen constante',statement:'La <strong>presión</strong> es <strong>directamente proporcional a la temperatura en kelvin</strong>: al calentar un gas en un recipiente rígido, aumenta su presión.',
- formula:gasLawFraction('p₁','T₁')+' = '+gasLawFraction('p₂','T₂'),proportion:gasLawFraction('p','T')+' = constante',
- tcm:'Al calentar, las partículas se mueven más deprisa. Como el volumen no puede aumentar, los choques con las paredes son más frecuentes y más intensos: <strong>aumenta la presión</strong>.',
- examplesHeader:'Convertimos a kelvin: T (K) = t (°C) + 273',rule:'Recipiente rígido: el volumen no cambia. Para calcular con temperaturas, usa siempre kelvin.',
- examples:[
-  {title:'Calculamos la presión',problem:'Un gas en un recipiente rígido tiene una presión de <strong>1,2 atm a 27 °C</strong>. Se calienta hasta <strong>127 °C</strong>. ¿Cuál es su presión final?',
-   rows:[['p','1,2 atm','?'],['t','27 °C','127 °C']],units:'T₁ = 27 + 273 = 300 K; T₂ = 127 + 273 = 400 K.',
-   equation:gasLawFraction('p₁','T₁')+' = '+gasLawFraction('p₂','T₂')+' &nbsp; ⇒ &nbsp; p₂ = '+gasLawFraction('p₁ · T₂','T₁'),
-   solution:'<p>p₂ = '+gasLawFraction('1,2 · 400','300')+' = <strong>1,6 atm</strong></p><p>La temperatura aumenta; la presión <strong>aumenta</strong>.</p>'},
-  {title:'Calculamos la temperatura',problem:'En un recipiente rígido, un gas está a <strong>1,5 atm y 17 °C</strong>. Su presión sube hasta <strong>1,8 atm</strong>. ¿A qué temperatura en °C se encuentra?',
-   rows:[['p','1,5 atm','1,8 atm'],['t','17 °C','?']],units:'T₁ = 17 + 273 = 290 K. La temperatura final se obtiene primero en K.',
-   equation:gasLawFraction('p₁','T₁')+' = '+gasLawFraction('p₂','T₂')+' &nbsp; ⇒ &nbsp; T₂ = '+gasLawFraction('p₂ · T₁','p₁'),
-   solution:'<p>T₂ = '+gasLawFraction('1,8 · 290','1,5')+' = <strong>348 K</strong></p><p>t₂ = 348 − 273 = <strong>75 °C</strong>. La temperatura ha aumentado.</p>'}
- ]}
+const gasEsoConcept=law=>'<div class="gas-eso"><div class="gas-eso-band"><strong>'+law.constant+'</strong><span>No entra ni sale gas</span></div><p class="gas-eso-context">'+law.context+'</p><div class="gas-eso-concept-grid"><div>'+gasEsoDrawing(law)+'<p class="gas-eso-art-caption">'+law.drawingNote+'</p></div><div class="gas-eso-explain"><h3>Fíjate en el cambio</h3><p>'+law.change+'</p><h3>¿Por qué ocurre?</h3><p>'+law.particles+'</p><div class="gas-eso-rule"><strong>La relación que usamos</strong><div class="gas-eso-formula">'+law.formula+'</div><p>'+law.rule+'</p></div></div></div><p class="gas-eso-memory">'+law.memory+'</p></div>';
+const gasEsoWorked=law=>'<div class="gas-eso"><div class="gas-eso-band"><strong>'+law.constant+'</strong><span>'+law.workHeader+'</span></div><div class="gas-eso-work-grid"><section class="gas-eso-problem"><h3>Ejercicio resuelto</h3><p>'+law.problem+'</p><table class="gas-eso-data"><thead><tr><th>Magnitud</th><th>Antes</th><th>Después</th></tr></thead><tbody>'+law.rows.map(r=>'<tr>'+r.map((v,i)=>'<'+(i?'td':'th')+'>'+v+'</'+(i?'td':'th')+'>').join('')+'</tr>').join('')+'</tbody></table>'+gasEsoDrawing(law,true)+'</section><section class="gas-eso-steps"><div><b>1</b><div><h3>'+law.unitsTitle+'</h3><p>'+law.units+'</p></div></div><div><b>2</b><div><h3>Escribimos la ley</h3><div class="gas-eso-formula">'+law.formula+'</div></div></div><div><b>3</b><div><h3>Sustituimos y calculamos</h3><div class="gas-eso-formula gas-eso-calculation">'+law.calculation+'</div></div></div><div><b>4</b><div><h3>Comprobamos el resultado</h3><p>'+law.check+'</p></div></div></section></div><div class="gas-eso-practice"><div><strong>Ahora tú.</strong> '+law.challenge+'</div>'+reveal('gas-eso-'+law.kind+'-answer','Mostrar respuesta','<p>'+law.challengeAnswer+'</p>')+'</div></div>';
+const gasEsoLaws=[
+ {kind:'boyle',name:'Boyle-Mariotte',constant:'Temperatura constante',unit:'mL',unknown:'p',
+  context:'Tenemos aire en una <strong>jeringa tapada</strong>. Empujamos el émbolo lentamente, manteniendo la misma temperatura.',
+  drawingNote:'La jeringa está cerrada. La cantidad de aire es la misma antes y después.',
+  demo:{v1:60,v2:30,p1:1,p2:2,t1:293,t2:293},work:{v1:60,v2:20,p1:1,p2:3,t1:293,t2:293},
+  alt:'Jeringa tapada a temperatura constante: el volumen baja de 60 a 30 mililitros y la presión aumenta de 1 a 2 atmósferas. Hay doce partículas en cada estado.',
+  workAlt:'Datos del ejercicio: jeringa con 60 mililitros a 1 atmósfera; después ocupa 20 mililitros y queremos calcular la presión.',
+  change:'El volumen pasa de <strong>60 a 30 mL</strong>: se reduce a la mitad. La presión pasa de <strong>1 a 2 atm</strong>: se duplica.',
+  particles:'Las partículas tienen menos espacio y chocan más a menudo con las paredes. <strong>Su tamaño no cambia.</strong>',
+  formula:'p₁ · V₁ = p₂ · V₂',rule:'Menos volumen → más presión.<br>Más volumen → menos presión.',
+  memory:'Recuerda: esto ocurre <strong>si la temperatura no cambia</strong>.',
+  workHeader:'Buscamos la presión final',
+  problem:'Un gas ocupa <strong>60 mL a 1 atm</strong>. Lo comprimimos hasta <strong>20 mL</strong> sin cambiar su temperatura. <strong>¿Cuál será su presión?</strong>',
+  rows:[['Presión','1 atm','?'],['Volumen','60 mL','20 mL']],
+  unitsTitle:'Revisamos las unidades',units:'Los volúmenes están en <strong>mL</strong>. Calcularemos la presión en <strong>atm</strong>.',
+  calculation:'p₂ = '+gasLawFraction('p₁ · V₁','V₂')+' = '+gasLawFraction('1 · 60','20')+' = <strong>3 atm</strong>',
+  check:'El volumen se reduce a un tercio. La presión <strong>se triplica</strong>: pasa de 1 a 3 atm.',
+  challenge:'Un gas ocupa <strong>100 mL a 2 atm</strong>. Si la presión baja a <strong>1 atm</strong>, sin cambiar la temperatura, ¿qué volumen ocupará?',
+  challengeAnswer:'V₂ = (2 · 100) / 1 = <strong>200 mL</strong>. La presión se reduce a la mitad y el volumen se duplica.'
+ },
+ {kind:'charles',name:'Charles',constant:'Presión constante',unit:'L',unknown:'v',
+  context:'Calentamos un gas en un cilindro con <strong>émbolo móvil</strong>. El émbolo puede subir y permite que la presión se mantenga constante.',
+  drawingNote:'El émbolo se mueve: el gas puede ocupar más volumen.',
+  demo:{v1:2,v2:4,p1:1,p2:1,t1:300,t2:600},work:{v1:2,v2:2.4,p1:1,p2:1,t1:300,t2:360},
+  alt:'A presión constante, calentamos un gas de 300 a 600 kelvin. El émbolo sube y el volumen pasa de 2 a 4 litros. Hay doce partículas en cada estado.',
+  workAlt:'Datos del ejercicio: gas de 2 litros a 300 kelvin; después está a 360 kelvin y queremos calcular su volumen, a la misma presión.',
+  change:'La temperatura pasa de <strong>300 a 600 K</strong>: se duplica. El volumen pasa de <strong>2 a 4 L</strong>: también se duplica.',
+  particles:'Al calentar, las partículas se mueven más deprisa. El émbolo sube y el gas <strong>ocupa más espacio</strong>.',
+  formula:gasLawFraction('V₁','T₁')+' = '+gasLawFraction('V₂','T₂'),rule:'Más temperatura → más volumen.<br>Menos temperatura → menos volumen.',
+  memory:'Para calcular, usa <strong>T (K) = t (°C) + 273</strong>. La proporción se cumple con kelvin.',
+  workHeader:'Buscamos el volumen final',
+  problem:'Un gas ocupa <strong>2 L a 27 °C</strong>. Lo calentamos hasta <strong>87 °C</strong> manteniendo la presión. <strong>¿Qué volumen ocupará?</strong>',
+  rows:[['Volumen','2 L','?'],['Temperatura','27 °C','87 °C']],
+  unitsTitle:'Pasamos a kelvin',units:'T₁ = 27 + 273 = <strong>300 K</strong><br>T₂ = 87 + 273 = <strong>360 K</strong>',
+  calculation:'V₂ = '+gasLawFraction('V₁ · T₂','T₁')+' = '+gasLawFraction('2 · 360','300')+' = <strong>2,4 L</strong>',
+  check:'Hemos calentado el gas: su volumen <strong>aumenta</strong>, de 2 a 2,4 L.',
+  challenge:'Un gas ocupa <strong>3 L a 300 K</strong>. Lo enfriamos hasta <strong>200 K</strong> a presión constante. ¿Qué volumen ocupará?',
+  challengeAnswer:'V₂ = (3 · 200) / 300 = <strong>2 L</strong>. Al enfriar, el gas ocupa menos volumen.'
+ },
+ {kind:'gay',name:'Gay-Lussac',constant:'Volumen constante',unit:'L',unknown:'p',
+  context:'Calentamos un gas encerrado en un <strong>recipiente rígido y cerrado</strong>. Sus paredes no se pueden desplazar: el volumen no cambia.',
+  drawingNote:'El recipiente conserva su tamaño. El gas no puede expandirse.',
+  demo:{v1:2,v2:2,p1:1,p2:2,t1:300,t2:600},work:{v1:2,v2:2,p1:1.2,p2:1.6,t1:300,t2:400},
+  alt:'Recipiente rígido de 2 litros: al pasar de 300 a 600 kelvin, la presión aumenta de 1 a 2 atmósferas. Hay doce partículas en cada estado.',
+  workAlt:'Datos del ejercicio: recipiente rígido a 1,2 atmósferas y 300 kelvin; después está a 400 kelvin y queremos calcular la presión.',
+  change:'La temperatura pasa de <strong>300 a 600 K</strong>: se duplica. La presión pasa de <strong>1 a 2 atm</strong>: también se duplica.',
+  particles:'Las partículas se mueven más deprisa y chocan con más frecuencia y fuerza con las paredes. <strong>La presión aumenta.</strong>',
+  formula:gasLawFraction('p₁','T₁')+' = '+gasLawFraction('p₂','T₂'),rule:'Más temperatura → más presión.<br>Menos temperatura → menos presión.',
+  memory:'Recuerda: recipiente <strong>rígido</strong> significa volumen constante. Calcula con <strong>kelvin</strong>.',
+  workHeader:'Buscamos la presión final',
+  problem:'Un gas está a <strong>1,2 atm y 27 °C</strong> en un recipiente rígido. Se calienta hasta <strong>127 °C</strong>. <strong>¿Cuál será su presión?</strong>',
+  rows:[['Presión','1,2 atm','?'],['Temperatura','27 °C','127 °C']],
+  unitsTitle:'Pasamos a kelvin',units:'T₁ = 27 + 273 = <strong>300 K</strong><br>T₂ = 127 + 273 = <strong>400 K</strong>',
+  calculation:'p₂ = '+gasLawFraction('p₁ · T₂','T₁')+' = '+gasLawFraction('1,2 · 400','300')+' = <strong>1,6 atm</strong>',
+  check:'El gas está más caliente y no puede aumentar su volumen. Su presión <strong>aumenta</strong>, de 1,2 a 1,6 atm.',
+  challenge:'Un gas está a <strong>2 atm y 400 K</strong>. Se enfría hasta <strong>300 K</strong> en el mismo recipiente rígido. ¿Cuál será su presión?',
+  challengeAnswer:'p₂ = (2 · 300) / 400 = <strong>1,5 atm</strong>. Al enfriar, la presión disminuye.'
+ }
 ];
-gasLawsAcademic.forEach(law=>{
- S('leyes','Ley de '+law.name+' · 1 / 2','Ley de '+law.name,gasLawTheory(law));
- S('leyes','Ley de '+law.name+' · 2 / 2',law.name+': ejemplos resueltos',gasLawExamples(law));
+gasEsoLaws.forEach(law=>{
+ S('leyes','Ley de '+law.name+' · 1 / 2','Ley de '+law.name,gasEsoConcept(law));
+ S('leyes','Ley de '+law.name+' · 2 / 2',law.name+': resolvemos un ejercicio',gasEsoWorked(law));
 });
 S('leyes','Ahora tú','Actividades del libro',book(36,'ejercicios 17, 19, 20 y 24','Antes de calcular, escribe qué magnitud no varía en cada ejercicio.'));
 // Apartado 5 · Síntesis contrastada con AEMET y NOAA.

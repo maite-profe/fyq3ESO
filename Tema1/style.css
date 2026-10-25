@@ -142,3 +142,41 @@ html{font-size:18px}#app{padding:18px max(2.5vw,18px) 64px}#stage{height:calc(10
 .atmo-weather-art{display:block;width:100%;max-height:47vh}
 .atmo-wind-summary{background:#e2f0fa;border-left:5px solid #317da8;border-radius:0 12px 12px 0;padding:13px 18px;margin:17px 0 0;font-size:.95em}
 @media(max-width:800px){.atmo-intro-grid,.atmo-torricelli-grid,.atmo-map-grid{gap:18px}.atmo-composition{padding-left:15px}.atmo-definitions p,.atmo-map-definitions p{margin-bottom:12px}.atmo-gas-legend p{gap:6px}.atmo-pressure-equivalence{font-size:1.2rem}.atmo-torricelli-art{max-height:43vh}}
+
+/* Leyes de gases · 3.º ESO · ejemplos visuales sin gráficas. */
+.gas-eso{width:min(1280px,100%);margin:auto;color:#25455b;font-size:clamp(1.12rem,1.75vw,1.7rem);line-height:1.33}
+.gas-eso-band{display:flex;align-items:center;justify-content:space-between;gap:20px;border-left:5px solid #2c749f;background:#e3f1fa;border-radius:0 12px 12px 0;padding:11px 18px}
+.gas-eso-band strong{color:#1d587f}.gas-eso-band span{font-size:.86em;color:#4c6c81}
+.gas-eso-context{font-size:clamp(1.25rem,1.95vw,1.95rem);margin:17px 0 13px;line-height:1.34}
+.gas-eso-concept-grid{display:grid;grid-template-columns:1.5fr 1fr;gap:24px;align-items:center}
+.gas-eso-drawing{width:100%;display:block;max-height:39vh;overflow:visible}
+.gas-eso-svg-title{font:700 25px Arial;fill:#466b84;letter-spacing:1px}
+.gas-eso-svg-value{font:700 27px Arial;fill:#235878}
+.gas-eso-svg-temperature{font:700 23px Arial;fill:#356681}
+.gas-eso-art-caption{font-size:.83em;color:#517288;text-align:center;margin:8px 0 0}
+.gas-eso-explain h3{font-size:clamp(1.25rem,1.9vw,1.85rem);color:#235d82;margin:12px 0 5px}
+.gas-eso-explain p{font-size:1em;line-height:1.34;margin:5px 0 13px}
+.gas-eso-rule{border-top:2px solid #c7ddeb;padding-top:11px;margin-top:10px}.gas-eso-rule>strong{font-size:.85em;color:#4c6c81}
+.gas-eso-formula{font-family:Georgia,'Times New Roman',serif;font-size:clamp(1.4rem,2.15vw,2.15rem);color:#1c577c;display:flex;align-items:center;gap:.17em;justify-content:center;line-height:1.08;margin:8px 0;min-height:50px;white-space:nowrap}
+.gas-eso-frac{display:inline-flex;flex-direction:column;text-align:center;vertical-align:middle;align-items:stretch;line-height:1.06;margin:0 .12em}
+.gas-eso-frac>span{display:block;padding:2px 6px}.gas-eso-frac>span:first-child{border-bottom:1.5px solid currentColor;padding-bottom:5px}.gas-eso-frac>span:last-child{padding-top:5px}
+.gas-eso-memory{font-size:1em;background:#edf6fc;border-left:4px solid #91bad3;border-radius:0 10px 10px 0;padding:12px 17px;margin:15px 0 0}
+.gas-eso-work-grid{display:grid;grid-template-columns:1fr 1.05fr;gap:28px;margin-top:18px;align-items:start}
+.gas-eso-problem h3{color:#225d82;font-size:clamp(1.3rem,1.9vw,1.8rem);margin:0 0 9px}
+.gas-eso-problem>p{font-size:1em;margin:0 0 13px;line-height:1.36}
+.gas-eso-data{width:100%;border-collapse:collapse;font-size:.93em;margin:10px 0 0}
+.gas-eso-data th,.gas-eso-data td{text-align:center;border:1px solid #c7dce9;padding:7px 9px}
+.gas-eso-data thead{background:#e6f1f9}.gas-eso-data tbody{background:#fff}
+.gas-eso-problem .gas-eso-drawing{max-height:23vh;margin:16px auto 0}
+.gas-eso-steps{background:#fff;border:1px solid #c9deeb;border-radius:15px;padding:10px 18px}
+.gas-eso-steps>div{display:grid;grid-template-columns:32px 1fr;gap:10px;padding:10px 0;border-bottom:1px solid #dce8f0}
+.gas-eso-steps>div:last-child{border-bottom:none}
+.gas-eso-steps>div>b{background:#e3eff8;color:#28698f;border-radius:50%;width:30px;height:30px;text-align:center;line-height:30px;font-size:.88em}
+.gas-eso-steps h3{font-size:.91em;margin:0 0 6px;color:#2c6384}
+.gas-eso-steps p{font-size:.98em;line-height:1.3;margin:0}
+.gas-eso-calculation{font-size:clamp(1.15rem,1.55vw,1.6rem);justify-content:flex-start;flex-wrap:wrap;row-gap:10px}
+.gas-eso-practice{border-top:2px solid #c7ddeb;margin-top:15px;padding-top:12px;font-size:.96em}
+.gas-eso-practice>.btn{font-size:.88em;padding:8px 15px;margin-top:8px}
+.gas-eso-practice>.answer{font-size:.97em;padding:10px 14px;margin:8px 0 0}
+.gas-eso-practice>.answer p{font-size:1em;margin:0}
+@media(max-width:800px){.gas-eso-concept-grid{grid-template-columns:1.3fr 1fr;gap:14px}.gas-eso-work-grid{gap:15px}.gas-eso-band{gap:10px;padding:10px}.gas-eso-steps{padding:8px 11px}.gas-eso-steps>div{grid-template-columns:26px 1fr;gap:8px}.gas-eso-steps>div>b{width:25px;height:25px;line-height:25px}.gas-eso-formula{font-size:1.25rem}.gas-eso-calculation{font-size:1.08rem}.gas-eso-data th,.gas-eso-data td{padding:6px}.gas-eso-rule p{font-size:.95em}}
